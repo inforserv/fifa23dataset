@@ -18,7 +18,7 @@ from datetime import datetime
 import requests
 
 st.set_page_config(
-    page_title="FIFA23 CLUBES! ⚽️",
+    page_title="FIFA23 EQUIPAS! ⚽️",
     page_icon="❎",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -129,6 +129,7 @@ df_filtered = df_filtered.style.format(
 
 clcol1.markdown(f"### Valor de Mercado da Equipa: **{value_total}**")
 clcol1.markdown(f"#### Custo Semanal com Jogadores: **{wage_total}**")
+clcol1.markdown("## Plantel")
 
 st.dataframe(df_filtered,
              column_config={

@@ -18,7 +18,7 @@ from datetime import datetime
 import requests
 
 st.set_page_config(
-    page_title="FIFA23 EQUIPAS! ⚽️",
+    page_title="FIFA23 CLUBES! ⚽️",
     page_icon="❎",
     layout="wide",
     initial_sidebar_state="expanded",

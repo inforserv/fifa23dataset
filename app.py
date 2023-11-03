@@ -23,7 +23,7 @@ st.set_page_config(
     menu_items={
         'Get Help': 'https://www.inforserv.pt/contact/',
         'Report a bug': "https://www.inforserv.pt/contact/",
-        'About': "# This is a header. This is an *extremely* cool app!"
+        'About': "# InforServ. This is an *extremely* cool app!"
     }
 )
 

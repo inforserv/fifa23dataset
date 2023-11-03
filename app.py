@@ -33,6 +33,6 @@ show_pages(
     [
         Page("home.py", "FIFA23 Dataset", "⚽️"),
         Page("pages/0_players.py", "Jogadores", "👨"),
-        Page("pages/1_teams.py", "Equipas", "❎"),
+        Page("pages/1_teams.py", "Clubes", "❎"),
     ]
 )

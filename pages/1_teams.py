@@ -18,7 +18,7 @@ from datetime import datetime
 import requests
 
 st.set_page_config(
-    page_title="FIFA23 TEAMS! ⚽️",
+    page_title="FIFA23 EQUIPAS! ⚽️",
     page_icon="❎",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -62,8 +62,10 @@ df_filtered = df_data[df_data["Club"] == club].set_index("Name")
 st.sidebar.markdown("""---""")
 st.sidebar.markdown("Desenvolvido por [InforServ](https://www.inforserv.pt)")
 
-st.image(df_filtered.iloc[0]["Club Logo"])
-st.markdown(f"## {club}")
+clcol1, clcol2 = st.columns(2)
+
+clcol1.image(df_filtered.iloc[0]["Club Logo"])
+clcol1.markdown(f"## {club}")
 
 url = 'https://api.exchangerate-api.com/v4/latest/USD'
 converter = RealTimeCurrencyConverter(url)
@@ -80,6 +82,40 @@ df_filtered = df_filtered[columns]
 value_total = '{:,.0f} €'.format(df_filtered["Value(€)"].sum())
 wage_total = '{:,.0f} €'.format(df_filtered["Wage(€)"].sum())
 
+total = []
+
+for cl in clubes:
+    club_data = df_data[df_data["Club"] == cl].set_index("Name")
+    val_total = club_data["Value(£)"].sum()
+    wg_total = club_data["Wage(£)"].sum()
+    total.append([cl, val_total, wg_total])
+
+column_names = ["Clube", "Valor Equipa(€)", "Custo Semanal(€)"]    
+    
+dt_total =  pd.DataFrame(data = total, columns = column_names)
+
+dt_total  = dt_total.sort_values(by="Valor Equipa(€)", ascending=False) 
+
+dt_total = dt_total.style.format(
+    {
+         "Valor Equipa(€)": lambda x : '{:,.0f} €'.format(converter.convert('GBP','EUR', x)),
+        "Custo Semanal(€)": lambda x : '{:,.0f} €'.format(converter.convert('GBP','EUR', x)),   
+    }    
+)
+
+clcol2.markdown("## **Top Clubes**")
+
+clcol2.dataframe(dt_total,
+             column_config={
+                 "Clube": st.column_config.TextColumn(label="Clube", width="medium"),
+                 "Valor Equipa(€)": st.column_config.TextColumn(label="Valor Mercado Equipa (€)", width="medium"),
+                 "Custo Semanal(€)": st.column_config.TextColumn(label="Custo Semanal Equipa (€)", width="medium"),
+             },
+             use_container_width=True,
+             height=220,
+             hide_index=True
+)
+
 df_filtered = df_filtered.style.format(
     {
         "Value(€)": lambda x : '{:,.0f} €'.format(x),
@@ -91,8 +127,8 @@ df_filtered = df_filtered.style.format(
     }
 )
 
-st.markdown(f"### Valor de Mercado da Equipa: **{value_total}**")
-st.markdown(f"#### Custo Semanal com Jogadores: **{wage_total}**")
+clcol1.markdown(f"### Valor de Mercado da Equipa: **{value_total}**")
+clcol1.markdown(f"#### Custo Semanal com Jogadores: **{wage_total}**")
 
 st.dataframe(df_filtered,
              column_config={
